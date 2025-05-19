@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head prefix="og: http://ogp.me/ns#">
+    <meta charset="UTF-8">
+    <meta name="description" content="電力各社のでんき予報を一覧表示！">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta property="og:url" content="https://powerflowmap.shikiblog.link/denkiyoho.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="でんき予報一覧サイト" />
+    <meta property="og:description" content="電力各社のでんき予報を一覧表示！" />
+    <meta property="og:site_name" content="でんき予報一覧サイト" />
+    <title>でんき予報一覧サイト</title>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script type="module" src="./displayForecast.js"></script>
+    <script type="module" src="./displayChart.js"></script>
+  </head>
+
+  <body>
+    <h2>本日の電力使用見通し</h2>
+    <table>
+      <caption id="today_caption">広域ブロック使用率<br>(--:-- UPDATE)</caption>
+      <thead>
+        <tr>
+          <th>エリア</th>
+          <th>需要ピーク時</th>
+          <th>使用率ピーク時</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>北海道</th>
+          <td>
+            <div class="table-time" id="today_demand_peak_time_01">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_demand_peak_percent_01">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="today_usage_peak_time_01">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_usage_peak_percent_01">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>東北</th>
+          <td>
+            <div class="table-time" id="today_demand_peak_time_02">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_demand_peak_percent_02">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="today_usage_peak_time_02">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_usage_peak_percent_02">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>東京</th>
+          <td>
+            <div class="table-time" id="today_demand_peak_time_03">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_demand_peak_percent_03">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="today_usage_peak_time_03">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_usage_peak_percent_03">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>中部</th>
+          <td>
+            <div class="table-time" id="today_demand_peak_time_04">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_demand_peak_percent_04">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="today_usage_peak_time_04">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_usage_peak_percent_04">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>北陸</th>
+          <td>
+            <div class="table-time" id="today_demand_peak_time_05">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_demand_peak_percent_05">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="today_usage_peak_time_05">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_usage_peak_percent_05">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>関西</th>
+          <td>
+            <div class="table-time" id="today_demand_peak_time_06">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_demand_peak_percent_06">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="today_usage_peak_time_06">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_usage_peak_percent_06">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>中国</th>
+          <td>
+            <div class="table-time" id="today_demand_peak_time_07">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_demand_peak_percent_07">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="today_usage_peak_time_07">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_usage_peak_percent_07">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>四国</th>
+          <td>
+            <div class="table-time" id="today_demand_peak_time_08">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_demand_peak_percent_08">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="today_usage_peak_time_08">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_usage_peak_percent_08">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>九州</th>
+          <td>
+            <div class="table-time" id="today_demand_peak_time_09">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_demand_peak_percent_09">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="today_usage_peak_time_09">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_usage_peak_percent_09">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>沖縄</th>
+          <td>
+            <div class="table-time" id="today_demand_peak_time_10">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_demand_peak_percent_10">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="today_usage_peak_time_10">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="today_usage_peak_percent_10">--</span>%</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>翌日の電力使用見通し</h2>
+    <table>
+      <caption id="tomorrow_caption">広域ブロック使用率<br>(--:-- UPDATE)</caption>
+      <thead>
+        <tr>
+          <th>エリア</th>
+          <th>需要ピーク時</th>
+          <th>使用率ピーク時</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>北海道</th>
+          <td>
+            <div class="table-time" id="tomorrow_demand_peak_time_01">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_demand_peak_percent_01">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="tomorrow_usage_peak_time_01">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_usage_peak_percent_01">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>東北</th>
+          <td>
+            <div class="table-time" id="tomorrow_demand_peak_time_02">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_demand_peak_percent_02">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="tomorrow_usage_peak_time_02">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_usage_peak_percent_02">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>東京</th>
+          <td>
+            <div class="table-time" id="tomorrow_demand_peak_time_03">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_demand_peak_percent_03">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="tomorrow_usage_peak_time_03">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_usage_peak_percent_03">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>中部</th>
+          <td>
+            <div class="table-time" id="tomorrow_demand_peak_time_04">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_demand_peak_percent_04">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="tomorrow_usage_peak_time_04">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_usage_peak_percent_04">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>北陸</th>
+          <td>
+            <div class="table-time" id="tomorrow_demand_peak_time_05">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_demand_peak_percent_05">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="tomorrow_usage_peak_time_05">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_usage_peak_percent_05">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>関西</th>
+          <td>
+            <div class="table-time" id="tomorrow_demand_peak_time_06">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_demand_peak_percent_06">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="tomorrow_usage_peak_time_06">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_usage_peak_percent_06">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>中国</th>
+          <td>
+            <div class="table-time" id="tomorrow_demand_peak_time_07">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_demand_peak_percent_07">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="tomorrow_usage_peak_time_07">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_usage_peak_percent_07">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>四国</th>
+          <td>
+            <div class="table-time" id="tomorrow_demand_peak_time_08">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_demand_peak_percent_08">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="tomorrow_usage_peak_time_08">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_usage_peak_percent_08">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>九州</th>
+          <td>
+            <div class="table-time" id="tomorrow_demand_peak_time_09">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_demand_peak_percent_09">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="tomorrow_usage_peak_time_09">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_usage_peak_percent_09">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>沖縄</th>
+          <td>
+            <div class="table-time" id="tomorrow_demand_peak_time_10">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_demand_peak_percent_10">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="tomorrow_usage_peak_time_10">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="tomorrow_usage_peak_percent_10">--</span>%</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>翌々日の電力使用見通し</h2>
+    <p id="2daysafter_not_ready">18:00以降にご覧いただけます。</p>
+    <table>
+      <caption id="2daysafter_caption">広域ブロック使用率<br>(--:-- UPDATE)</caption>
+      <thead>
+        <tr>
+          <th>エリア</th>
+          <th>需要ピーク時</th>
+          <th>使用率ピーク時</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>北海道</th>
+          <td>
+            <div class="table-time" id="2daysafter_demand_peak_time_01">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_demand_peak_percent_01">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="2daysafter_usage_peak_time_01">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_usage_peak_percent_01">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>東北</th>
+          <td>
+            <div class="table-time" id="2daysafter_demand_peak_time_02">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_demand_peak_percent_02">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="2daysafter_usage_peak_time_02">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_usage_peak_percent_02">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>東京</th>
+          <td>
+            <div class="table-time" id="2daysafter_demand_peak_time_03">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_demand_peak_percent_03">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="2daysafter_usage_peak_time_03">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_usage_peak_percent_03">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>中部</th>
+          <td>
+            <div class="table-time" id="2daysafter_demand_peak_time_04">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_demand_peak_percent_04">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="2daysafter_usage_peak_time_04">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_usage_peak_percent_04">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>北陸</th>
+          <td>
+            <div class="table-time" id="2daysafter_demand_peak_time_05">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_demand_peak_percent_05">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="2daysafter_usage_peak_time_05">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_usage_peak_percent_05">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>関西</th>
+          <td>
+            <div class="table-time" id="2daysafter_demand_peak_time_06">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_demand_peak_percent_06">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="2daysafter_usage_peak_time_06">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_usage_peak_percent_06">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>中国</th>
+          <td>
+            <div class="table-time" id="2daysafter_demand_peak_time_07">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_demand_peak_percent_07">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="2daysafter_usage_peak_time_07">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_usage_peak_percent_07">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>四国</th>
+          <td>
+            <div class="table-time" id="2daysafter_demand_peak_time_08">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_demand_peak_percent_08">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="2daysafter_usage_peak_time_08">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_usage_peak_percent_08">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>九州</th>
+          <td>
+            <div class="table-time" id="2daysafter_demand_peak_time_09">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_demand_peak_percent_09">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="2daysafter_usage_peak_time_09">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_usage_peak_percent_09">--</span>%</div>
+          </td>
+        </tr>
+        <tr>
+          <th>沖縄</th>
+          <td>
+            <div class="table-time" id="2daysafter_demand_peak_time_10">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_demand_peak_percent_10">--</span>%</div>
+          </td>
+          <td>
+            <div class="table-time" id="2daysafter_usage_peak_time_10">--:--～--:--</div>
+            <div class="table-value"><span class="table-digits" id="2daysafter_usage_peak_percent_10">--</span>%</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>週間の電力使用見通し</h2>
+    <div class="scroll-table-box">
+      <table>
+        <caption id="weekly_usage_peak_caption"></caption>
+        <thead>
+          <tr id="weekly_usage_peak_head">
+            <th>エリア</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="weekly_usage_peak_row_01">
+            <th>北海道</th>
+          </tr>
+          <tr id="weekly_usage_peak_row_02">
+            <th>東北</th>
+          </tr>
+          <tr id="weekly_usage_peak_row_03">
+            <th>東京</th>
+          </tr>
+          <tr id="weekly_usage_peak_row_04">
+            <th>中部</th>
+          </tr>
+          <tr id="weekly_usage_peak_row_05">
+            <th>北陸</th>
+          </tr>
+          <tr id="weekly_usage_peak_row_06">
+            <th>関西</th>
+          </tr>
+          <tr id="weekly_usage_peak_row_07">
+            <th>中国</th>
+          </tr>
+          <tr id="weekly_usage_peak_row_08">
+            <th>四国</th>
+          </tr>
+          <tr id="weekly_usage_peak_row_09">
+            <th>九州</th>
+          </tr>
+          <tr id="weekly_usage_peak_row_10">
+            <th>沖縄</th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>本日の電力使用状況</h2>
+    <div class="areaboxwrapper">
+      <div class="areabox">
+        <h3>北海道</h3>
+        <div class="value-indicator-container">
+          <div class="value-indicator">
+            <div class="value-title value-title-demand">現在の需要</div>
+            <div class="value-text">
+              <span class="value-digits" id="demand_01">-</span>万kW
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-solar">太陽光発電</div>
+            <div class="value-text">
+              <span class="value-digits" id="solar_01">-</span>万kW (需要の
+              <span class="value-digits" id="solar_percentage_01">-</span>%)
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-forecast">需要予測</div>
+            <div class="value-text"></div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas class="areachart" id="chart_01"></canvas>
+        </div>
+      </div>
+  
+      <div class="areabox">
+        <h3>東北</h3>
+        <div class="value-indicator-container">
+          <div class="value-indicator">
+            <div class="value-title value-title-demand">現在の需要</div>
+            <div class="value-text">
+              <span class="value-digits" id="demand_02">-</span>万kW
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-solar">太陽光発電</div>
+            <div class="value-text">
+              <span class="value-digits" id="solar_02">-</span>万kW (需要の
+              <span class="value-digits" id="solar_percentage_02">-</span>%)
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-forecast">需要予測</div>
+            <div class="value-text"></div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas class="areachart" id="chart_02"></canvas>
+        </div>
+      </div>
+
+      <div class="areabox">
+        <h3>東京</h3>
+        <div class="value-indicator-container">
+          <div class="value-indicator">
+            <div class="value-title value-title-demand">現在の需要</div>
+            <div class="value-text">
+              <span class="value-digits" id="demand_03">-</span>万kW
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-solar">太陽光発電</div>
+            <div class="value-text">
+              <span class="value-digits" id="solar_03">-</span>万kW (需要の
+              <span class="value-digits" id="solar_percentage_03">-</span>%)
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-forecast">需要予測</div>
+            <div class="value-text"></div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas class="areachart" id="chart_03"></canvas>
+        </div>
+      </div>
+
+      <div class="areabox">
+        <h3>中部</h3>
+        <div class="value-indicator-container">
+          <div class="value-indicator">
+            <div class="value-title value-title-demand">現在の需要</div>
+            <div class="value-text">
+              <span class="value-digits" id="demand_04">-</span>万kW
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-solar">太陽光発電</div>
+            <div class="value-text">
+              <span class="value-digits" id="solar_04">-</span>万kW (需要の
+              <span class="value-digits" id="solar_percentage_04">-</span>%)
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-forecast">需要予測</div>
+            <div class="value-text"></div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas class="areachart" id="chart_04"></canvas>
+        </div>
+      </div>
+
+      <div class="areabox">
+        <h3>北陸</h3>
+        <div class="value-indicator-container">
+          <div class="value-indicator">
+            <div class="value-title value-title-demand">現在の需要</div>
+            <div class="value-text">
+              <span class="value-digits" id="demand_05">-</span>万kW
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-solar">太陽光発電</div>
+            <div class="value-text">
+              <span class="value-digits" id="solar_05">-</span>万kW (需要の
+              <span class="value-digits" id="solar_percentage_05">-</span>%)
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-forecast">需要予測</div>
+            <div class="value-text"></div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas class="areachart" id="chart_05"></canvas>
+        </div>
+      </div>
+
+      <div class="areabox">
+        <h3>関西</h3>
+        <div class="value-indicator-container">
+          <div class="value-indicator">
+            <div class="value-title value-title-demand">現在の需要</div>
+            <div class="value-text">
+              <span class="value-digits" id="demand_06">-</span>万kW
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-solar">太陽光発電</div>
+            <div class="value-text">
+              <span class="value-digits" id="solar_06">-</span>万kW (需要の
+              <span class="value-digits" id="solar_percentage_06">-</span>%)
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-forecast">需要予測</div>
+            <div class="value-text"></div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas class="areachart" id="chart_06"></canvas>
+        </div>
+      </div>
+
+      <div class="areabox">
+        <h3>中国</h3>
+        <div class="value-indicator-container">
+          <div class="value-indicator">
+            <div class="value-title value-title-demand">現在の需要</div>
+            <div class="value-text">
+              <span class="value-digits" id="demand_07">-</span>万kW
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-solar">太陽光発電</div>
+            <div class="value-text">
+              <span class="value-digits" id="solar_07">-</span>万kW (需要の
+              <span class="value-digits" id="solar_percentage_07">-</span>%)
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-forecast">需要予測</div>
+            <div class="value-text"></div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas class="areachart" id="chart_07"></canvas>
+        </div>
+      </div>
+
+      <div class="areabox">
+        <h3>四国</h3>
+        <div class="value-indicator-container">
+          <div class="value-indicator">
+            <div class="value-title value-title-demand">現在の需要</div>
+            <div class="value-text">
+              <span class="value-digits" id="demand_08">-</span>万kW
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-solar">太陽光発電</div>
+            <div class="value-text">
+              <span class="value-digits" id="solar_08">-</span>万kW (需要の
+              <span class="value-digits" id="solar_percentage_08">-</span>%)
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-forecast">需要予測</div>
+            <div class="value-text"></div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas class="areachart" id="chart_08"></canvas>
+        </div>
+      </div>
+
+      <div class="areabox">
+        <h3>九州</h3>
+        <div class="value-indicator-container">
+          <div class="value-indicator">
+            <div class="value-title value-title-demand">現在の需要</div>
+            <div class="value-text">
+              <span class="value-digits" id="demand_09">-</span>万kW
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-solar">太陽光発電</div>
+            <div class="value-text">
+              <span class="value-digits" id="solar_09">-</span>万kW (需要の
+              <span class="value-digits" id="solar_percentage_09">-</span>%)
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-forecast">需要予測</div>
+            <div class="value-text"></div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas class="areachart" id="chart_09"></canvas>
+        </div>
+      </div>
+
+      <div class="areabox">
+        <h3>沖縄</h3>
+        <div class="value-indicator-container">
+          <div class="value-indicator">
+            <div class="value-title value-title-demand">現在の需要</div>
+            <div class="value-text">
+              <span class="value-digits" id="demand_10">-</span>万kW
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-solar">太陽光発電</div>
+            <div class="value-text">
+              <span class="value-digits" id="solar_10">-</span>万kW (需要の
+              <span class="value-digits" id="solar_percentage_10">-</span>%)
+            </div>
+          </div>
+          <div class="value-indicator">
+            <div class="value-title value-title-forecast">需要予測</div>
+            <div class="value-text"></div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas class="areachart" id="chart_10"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <h2>(参考)全国の使用状況</h2>
+    <div class="areabox">
+      <div class="value-indicator-container">
+        <div class="value-indicator">
+          <div class="value-title value-title-demand">現在の需要</div>
+          <div class="value-text">
+            <span class="value-digits" id="demand_11">-</span>万kW
+          </div>
+        </div>
+        <div class="value-indicator">
+          <div class="value-title value-title-solar">太陽光発電</div>
+          <div class="value-text">
+            <span class="value-digits" id="solar_11">-</span>万kW (需要の
+            <span class="value-digits" id="solar_percentage_11">-</span>%)
+          </div>
+        </div>
+        <div class="value-indicator">
+          <div class="value-title value-title-forecast">需要予測</div>
+          <div class="value-text"></div>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas class="areachart" id="chart_11"></canvas>
+      </div>
+    </div>
+  </body>
+</html>

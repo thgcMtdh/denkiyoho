@@ -1,0 +1,93 @@
+
+table {
+    border: 2px solid rgb(229,229,229);
+    text-align: center;
+}
+.scroll-table-box {
+    display: block;
+    overflow: auto;
+}
+th, td {
+    border: 1px solid rgb(229,229,229);
+    text-wrap: nowrap;
+}
+.table-time {
+    font-size: 0.75em;
+}
+.table-value {
+    font-size: 0.75em;
+}
+.stable {
+    color: rgb(77,173,56);
+}
+.severe {
+    color: rgb(255,204,23);
+}
+.verysevere {
+    color: rgb(251,27,42);
+}
+.table-digits {
+    font-size: 2em;
+}
+h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    text-align: center;
+}
+.areabox {
+    width: 100%;
+    border: 1px solid rgb(229,229,229);
+    margin: 3px 0;
+    padding: 3px;
+    box-sizing: border-box;
+}
+@media screen and (min-width: 481px) {
+    .areaboxwrapper {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .areabox {
+        width: 100%;
+    }
+}
+@media screen and (min-width: 640px) {
+    .areabox {
+        width: 50%;
+    }
+}
+@media screen and (min-width: 960px) {
+    .areabox {
+        width: 33%;
+        max-width: 640px;
+    }
+}
+.value-indicator-container {
+    display: flex;
+    justify-content: center;
+}
+.value-indicator {
+    margin: 0 3px;
+}
+.value-title {
+    font-size: 0.75em;
+    text-align: center;
+}
+.value-text {
+    font-size: 0.5em;
+    text-align: center;
+}
+.value-digits {
+    font-size: 2em;
+}
+.value-title-demand {
+    border-bottom: 3px solid rgb(142,54,54);
+}
+.value-title-solar {
+    border-bottom: 3px solid rgb(253,103,36);
+}
+.value-title-forecast {
+    border-bottom: 3px solid rgb(175,194,218);
+}
+.chart-container {
+    width: 100%;
+}
