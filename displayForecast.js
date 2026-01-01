@@ -87,7 +87,7 @@ const USAGE_OBJ_TEMPLATE = {
  */
 async function fetchCSV(jhSybt, tgtYmdFrom, tgtYmdTo) {
   const response = await fetch(
-    'https://powerflowmap.shikiblog.link/api/koikiyobiritsu.php?jhSybt=' + jhSybt
+    'https://shikiblog.sakura.ne.jp/powerflowmap/api/koikiyobiritsu.php?jhSybt=' + jhSybt
     + '&tgtYmdFrom=' + tgtYmdFrom
     + '&tgtYmdTo=' + tgtYmdTo
   );

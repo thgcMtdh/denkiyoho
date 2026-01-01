@@ -113,7 +113,7 @@ let chartCtxList = [
  * @param {Area} area 電力エリア
  */
 async function fetchCSV(area) {
-  const response = await fetch('https://powerflowmap.shikiblog.link/api/denkiyoho.php?area=' + area.id());
+  const response = await fetch('https://shikiblog.sakura.ne.jp/powerflowmap/api/denkiyoho.php?area=' + area.id());
 
   if (!response.ok) {  // データ取得できなかったとき
     return null;
