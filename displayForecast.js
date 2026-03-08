@@ -531,8 +531,6 @@ async function fetchAndUpdateWeekly() {
   // CSVデータをパース
   const usageObjArray = parseWeeklyCSV(csv);
 
-  console.log(usageObjArray);
-
   // データなし
   if (usageObjArray.length == 0) {
     return;
