@@ -141,15 +141,8 @@ async function fetchCSV(area) {
 function parseCSV(csv, area) {
   const lines = csv.split('\n'); // 行ごとに分割
 
-  let dataRows;
-  let data5minRows;
-  if (area.name() == "関西") {
-    dataRows = lines.slice(17, 41);
-    data5minRows = lines.slice(58, 346); // 56行目から343行目を抽出（0-based index, 最後は無視）
-  } else {
-    dataRows = lines.slice(14, 38); // 15行目から38行目を抽出（0-based index, 最後は無視）
-    data5minRows = lines.slice(55, 343); // 56行目から343行目を抽出（0-based index, 最後は無視）
-  }
+  const dataRows = lines.slice(14, 38); // 15行目から38行目を抽出（0-based index, 最後は無視）
+  const data5minRows = lines.slice(55, 343); // 56行目から343行目を抽出（0-based index, 最後は無視）
 
   let actualDemands = [];
   let forecastDemands = [];
@@ -269,6 +262,7 @@ function updateZenkokuIndicator() {
 async function fetchAndDraw(area) {
   // CSVデータを取得
   const csv = await fetchCSV(area);
+  console.log(csv);
 
   // データをパース
   const {
