@@ -262,7 +262,6 @@ function updateZenkokuIndicator() {
 async function fetchAndDraw(area) {
   // CSVデータを取得
   const csv = await fetchCSV(area);
-  console.log(csv);
 
   // データをパース
   const {
